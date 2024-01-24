@@ -1,0 +1,22 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+const Nav = () => {
+  return (
+    <header className=" mx-auto bg-clr-primary-1">
+      <nav className="  px-4 flex justify-between items-center h-24">
+        <Link to='/' className="text-[26px] font-bold">#VANLIFE</Link>
+        <ul className="flex item-center">
+          <li className="px-2 font-semibold text-clr-promary-2 hover:text-black hover:underline">
+            <Link to="/about">About</Link>
+          </li>
+          <li className="px-2 font-semibold text-clr-promary-2 hover:text-black">
+            <Link to="/vans">Vans</Link>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
+};
+
+export default Nav;
