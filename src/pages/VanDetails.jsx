@@ -19,9 +19,9 @@ const VanDetails = () => {
     // Handle the data as needed
   };
 
-  React.useEffect(() => {
+ useEffect(() => {
     fetchVanDetails();
-  }, [id]);
+  });
 
   const { name, type, description, imageUrl, price } = data;
 
