@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios'
 
 const Vans = () => {
   const [data, setData] = useState([]);
@@ -9,11 +10,11 @@ const Vans = () => {
     const response = await fetch('/api/vans');
     const data = await response.json();
     setData(data.vans)
-    console.log("Van details:", data);
+    console.log("Van details:", response);
     // Handle the data as needed
   };
 
-  React.useEffect(() => {
+ useEffect(() => {
     fetchVans();
   }, []);
 

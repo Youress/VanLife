@@ -15,7 +15,7 @@ const VanDetails = () => {
     const data = await response.json();
     setData(data.vans);
     setLoading(false);
-    console.log("Van details:", data);
+    console.log("Van details:", response);
     // Handle the data as needed
   };
 
