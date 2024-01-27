@@ -8,7 +8,6 @@ const VanDetails = () => {
   const { id } = useParams();
   console.log(id);
 
-  // Assuming you have a function to fetch van details based on the id
   const fetchVanDetails = async () => {
     // Use 'id' to fetch data (e.g., from an API)
     const response = await fetch(`/api/vans/${id}`);
