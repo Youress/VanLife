@@ -6,8 +6,6 @@ const VanDetails = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  console.log(id);
-
   const fetchVanDetails = async () => {
     // Use 'id' to fetch data (e.g., from an API)
     const response = await fetch(`/api/vans/${id}`);
@@ -18,9 +16,9 @@ const VanDetails = () => {
     // Handle the data as needed
   };
 
- useEffect(() => {
+  useEffect(() => {
     fetchVanDetails();
-  });
+  },[id]);
 
   const { name, type, description, imageUrl, price } = data;
 
@@ -35,19 +33,15 @@ const VanDetails = () => {
         <div className="py-6">
           <div className="flex flex-col">
             <img className="" src={imageUrl} alt={name} />
-            <i className="van-type simple selected w-fit  my-4">
-              {name}
-            </i>
+            <i className="van-type simple selected w-fit  my-4">{name}</i>
             <h2 className="font-bold my-2 uppercase text-[24px]">{type}</h2>
             <p className="font-semibold">
               <span>${price}</span>/day
             </p>
             <p className="my-4">{description}</p>
-            <button
-              className="link-button text-white  bg-[#FF8C38]"
-            >
-              Rent this van
-            </button>
+              <button className="link-button text-white  bg-[#FF8C38]">
+                Rent this van
+              </button>
           </div>
         </div>
       </div>
