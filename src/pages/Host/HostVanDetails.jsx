@@ -18,7 +18,7 @@ const HostVanDetails = () => {
   };
   useEffect(() => {
     fetchHostVanDetails();
-  }, [id]);
+  }, []);
 
   const activeStyle = {
     fontWeight: "bold",

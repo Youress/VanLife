@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router';
 
 
 const HostVanPhotos = () => {
-    const [van, setvan] = useOutletContext([]);
+    const [van] = useOutletContext([]);
     const { imageUrl ,name } = van;
 
   return (

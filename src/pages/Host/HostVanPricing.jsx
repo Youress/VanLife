@@ -1,7 +1,7 @@
 import React from 'react'
 import { useOutletContext } from 'react-router';
 const HostVanPricing = () => {
-    const [van, setvan] = useOutletContext([]);
+    const [van] = useOutletContext([]);
     const { price } = van;
 
   return (

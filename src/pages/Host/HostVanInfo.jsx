@@ -2,7 +2,7 @@ import React from "react";
 import { useOutletContext } from "react-router";
 
 const HostVanInfo = () => {
-  const [van, setvan] = useOutletContext([]);
+  const [van] = useOutletContext([]);
 
   const { name, description, type } = van;
   return (
