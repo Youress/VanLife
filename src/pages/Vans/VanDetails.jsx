@@ -18,7 +18,7 @@ const VanDetails = () => {
 
   useEffect(() => {
     fetchVanDetails();
-  },[id]);
+  },[]);
 
   const { name, type, description, imageUrl, price } = data;
 
