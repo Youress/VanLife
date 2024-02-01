@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const VanDetails = () => {
+
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
@@ -12,7 +13,6 @@ const VanDetails = () => {
     const data = await response.json();
     setData(data.vans);
     setLoading(false);
-    console.log("Van details:", response);
     // Handle the data as needed
   };
 

@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
+  const activeStyle = {
+    fontWeight: "bold",
+    textDecoration: "underline",
+    color: "#161616"
+  }
   return (
     <>
        <header className=" mx-auto bg-clr-primary-1">
@@ -9,13 +14,13 @@ export default function Header() {
         <Link to='/' className="text-[26px] font-bold">#VANLIFE</Link>
         <ul className="flex item-center">
           <li className="px-2 font-semibold text-clr-promary-2 hover:text-black hover:underline">
-            <Link to="/about">About</Link>
+            <NavLink style={({isActive})=> isActive ? activeStyle : null} to="/about">About</NavLink>
           </li>
           <li className="px-2 font-semibold text-clr-promary-2 hover:text-black">
-            <Link to="/vans">Vans</Link>
+            <NavLink style={({isActive})=> isActive ? activeStyle : null} to="/vans">Vans</NavLink>
           </li>
           <li className="px-2 font-semibold text-clr-promary-2 hover:text-black">
-            <Link to="/host">Host</Link>
+            <NavLink style={({isActive})=> isActive ? activeStyle : null} to="/host">Host</NavLink>
           </li>
         </ul>
       </nav>
