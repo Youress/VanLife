@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link  } from "react-router-dom";
 
 const VanDetails = () => {
 
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  
+
   const fetchVanDetails = async () => {
     // Use 'id' to fetch data (e.g., from an API)
     const response = await fetch(`/api/vans/${id}`);

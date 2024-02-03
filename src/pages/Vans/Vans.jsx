@@ -1,37 +1,38 @@
-
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 const Vans = () => {
-  const [data, setData] = useState([]);
-  const [newData ,setNewData] =  useState([])
+  const [Vans, setVans] = useState([]);
+  const [newData, setNewData] = useState([]);
+  const navigate = useNavigate();
 
-  const fetchVans = async () => {
-    // Use 'id' to fetch data (e.g., from an API)
-    const response = await fetch("/api/vans");
-    const data = await response.json();
-    setData(data.vans);
-    setNewData(data.vans)
-    console.log("Van details:", response);
-    // Handle the data as needed
-  };
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const typeFilter = searchParams.get("type");
+  console.log(typeFilter)
 
   const typeData = [...new Set(newData.map((item) => item.type))];
+
   const filterItems = (type) => {
-    if(type === 'all'){
-      return setData(newData)
+    if(type === "all"){
+      return navigate('/vans')
     }
-    const itemTypes = newData.filter((item) => item.type === type);
-    setData(itemTypes);
+    navigate(`/vans?type=${type}`);
   };
 
-  useEffect(() => {
-    fetchVans();
-  }, []);
+  
+  const displayVans = typeFilter ? Vans.filter((van) => van.type === typeFilter) : Vans
 
-  const vanElement = data.map((van) => (
+  useEffect(() => {
+    fetch("/api/vans")
+      .then((res) => res.json())
+      .then((data) => {
+        setVans(data.vans);
+        setNewData(data.vans);
+      });
+  }, []);
+  
+
+  const vanElement = displayVans.map((van) => (
     <div className="van-tile" key={van.id}>
       <Link
         to={`/vans/${van.id}`}
@@ -57,13 +58,25 @@ const Vans = () => {
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap gap-3">
           {typeData.map((type, index) => {
+            // const itemCount = newData.filter((item) => item.type === type)
             return (
-              <button onClick={()=>filterItems(type)} key={index} className={`van-type ${type} filter-btn`}>{type}</button>
+              <button
+                onClick={() => filterItems(type)}
+                key={index}
+                className={`van-type ${type} filter-btn`}
+              >
+                {type}
+              </button>
             );
-          })}         
+          })}
         </div>
         <div>
-          <button onClick={()=>filterItems('all')} className="underline text-[#4D4D4D]">clear filter</button>
+          <button
+            onClick={() => filterItems("all")}
+            className="underline text-[#4D4D4D]"
+          >
+            clear filter
+          </button>
         </div>
       </div>
       <div className="grid grid-cols-2  items-center gap-8 mt-14">
