@@ -6,7 +6,7 @@ const Vans = () => {
   const [newData, setNewData] = useState([]);
   const navigate = useNavigate();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const typeFilter = searchParams.get("type");
   console.log(typeFilter)
 
