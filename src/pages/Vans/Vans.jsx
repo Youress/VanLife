@@ -5,10 +5,11 @@ const Vans = () => {
   const [Vans, setVans] = useState([]);
   const [newData, setNewData] = useState([]);
   const navigate = useNavigate();
+  
 
-  const [searchParams] = useSearchParams();
+  const [searchParams , setSearchParams] = useSearchParams();
   const typeFilter = searchParams.get("type");
-  console.log(typeFilter)
+
 
   const typeData = [...new Set(newData.map((item) => item.type))];
 
@@ -35,7 +36,7 @@ const Vans = () => {
   const vanElement = displayVans.map((van) => (
     <div className="van-tile" key={van.id}>
       <Link
-        to={`/vans/${van.id}`}
+        to={`${van.id}`}  state={{search : searchParams.toString()}}
         aria-label={`View details for ${van.name},priced at $${van.price} per day`}
       >
         <img className="max-w-[100%]" src={van.imageUrl} alt={van.name} />
@@ -63,7 +64,9 @@ const Vans = () => {
               <button
                 onClick={() => filterItems(type)}
                 key={index}
-                className={`van-type ${type} filter-btn`}
+                className={
+                  `van-type ${type} ${typeFilter === `${type}` ? "selected" : ""}`
+              }
               >
                 {type}
               </button>

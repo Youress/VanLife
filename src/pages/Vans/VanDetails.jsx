@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams ,useLocation } from "react-router-dom";
 import { Link  } from "react-router-dom";
 
 const VanDetails = () => {
@@ -7,8 +7,8 @@ const VanDetails = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  
-
+  const location = useLocation();
+  const search = location.state?.search || ""
   const fetchVanDetails = async () => {
     // Use 'id' to fetch data (e.g., from an API)
     const response = await fetch(`/api/vans/${id}`);
@@ -20,7 +20,7 @@ const VanDetails = () => {
 
   useEffect(() => {
     fetchVanDetails();
-  });
+  },[location]);
 
   const { name, type, description, imageUrl, price } = data;
 
@@ -29,7 +29,7 @@ const VanDetails = () => {
   } else {
     return (
       <div className="p-6">
-        <Link className="back-button" to="/vans">
+        <Link className="back-button" relative="path" to={`..?${search}`}>
           ← <span>Back to all vans</span>
         </Link>
         <div className="py-6">
