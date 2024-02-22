@@ -10,12 +10,16 @@ const VanDetails = () => {
   const location = useLocation();
   const search = location.state?.search || ""
   const fetchVanDetails = async () => {
-    // Use 'id' to fetch data (e.g., from an API)
-    const response = await fetch(`/api/vans/${id}`);
+    try{
+      const response = await fetch(`/api/vans/${id}`);
     const data = await response.json();
     setData(data.vans);
     setLoading(false);
-    // Handle the data as needed
+    }catch(error){
+      console.log(error)
+
+    }
+    
   };
 
   useEffect(() => {

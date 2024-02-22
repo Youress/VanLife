@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { getVans } from "../../api";
 
 const Vans = () => {
   const [Vans, setVans] = useState([]);
   const [newData, setNewData] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
+  const [error ,setError]  = useState(null)
   
 
   const [searchParams , setSearchParams] = useSearchParams();
@@ -24,12 +27,19 @@ const Vans = () => {
   const displayVans = typeFilter ? Vans.filter((van) => van.type === typeFilter) : Vans
 
   useEffect(() => {
-    fetch("/api/vans")
-      .then((res) => res.json())
-      .then((data) => {
-        setVans(data.vans);
-        setNewData(data.vans);
-      });
+    async function loadVans() {
+      setLoading(true)
+      try {
+          const data = await getVans()
+          setVans(data)
+      } catch (err) {
+          setError(err)
+      } finally {
+          setLoading(false)
+      }
+  }
+
+  loadVans()
   }, []);
   
 
@@ -51,6 +61,12 @@ const Vans = () => {
       </Link>
     </div>
   ));
+  if (loading) {
+    return <h1>Loading...</h1>
+}
+if (error) {
+  return <h1>There was an error: {error.message}</h1>
+}
   return (
     <div className="p-8">
       <h1 className="text-[24px] font-bold my-[8px]">
