@@ -22,12 +22,14 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ErrorEl from "./ErrorEl";
+import Login from "./pages/Login";
 
 const route = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Layout />} errorElement={<ErrorEl/>}>
       <Route path="/" element={<Home />} />
       <Route path="about" element={<About />} />
+      <Route path="login" element={<Login/>}/>
 
       <Route path="Vans" element={<Vans />} loader={vansLoader}  />
       <Route path="vans/:id" element={<VanDetails />} />
