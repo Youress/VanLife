@@ -1,36 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useParams ,useLocation } from "react-router-dom";
+import React from "react";
+import { useLocation, useLoaderData } from "react-router-dom";
 import { Link  } from "react-router-dom";
+import { getVans } from "../../api";
+
+export function loader({params}){
+  console.log(params)
+  return getVans(params.id)
+}
 
 const VanDetails = () => {
 
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const { id } = useParams();
+  const Vans  = useLoaderData()
   const location = useLocation();
+
   const search = location.state?.search || ""
-  const fetchVanDetails = async () => {
-    try{
-      const response = await fetch(`/api/vans/${id}`);
-    const data = await response.json();
-    setData(data.vans);
-    setLoading(false);
-    }catch(error){
-      console.log(error)
 
-    }
-    
-  };
 
-  useEffect(() => {
-    fetchVanDetails();
-  },[location]);
+  const { name, type, description, imageUrl, price } = Vans;
 
-  const { name, type, description, imageUrl, price } = data;
 
-  if (loading) {
-    return <h1 className="font-bold text-3xl my-4 p-6">loading</h1>;
-  } else {
     return (
       <div className="p-6">
         <Link className="back-button" relative="path" to={`..?${search}`}>
@@ -53,6 +41,6 @@ const VanDetails = () => {
       </div>
     );
   }
-};
+
 
 export default VanDetails;

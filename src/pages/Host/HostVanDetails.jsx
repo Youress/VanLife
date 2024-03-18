@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { Outlet, useParams } from "react-router";
+import { Outlet, useLoaderData, useParams } from "react-router";
+import { getHostVans } from "../../api";
+
+export function loader({params}){
+  return getHostVans(params.id)
+
+}
 
 const HostVanDetails = () => {
-  const [currentVan, setCurrentVan] = useState([]);
-  const { id } = useParams();
-
-  const fetchHostVanDetails = async () => {
-    try {
-      const response = await fetch(`/api/host/vans/${id}`);
-      const responseData = await response.json();
-      // Assuming responseData is an object with a 'vans' property
-      setCurrentVan(responseData.vans);
-    } catch (error) {
-      console.error("Error fetching van details:", error);
-    }
-  };
-  useEffect(() => {
-    fetchHostVanDetails();
-  });
+  const currentVan = useLoaderData()
 
   const activeStyle = {
     fontWeight: "bold",
