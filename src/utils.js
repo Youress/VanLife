@@ -2,7 +2,7 @@ import { redirect } from "react-router"
 
 export async function requireAuth() {
 
-    const isLoggedIn = false
+    const isLoggedIn = true
     
     if (!isLoggedIn) {
     

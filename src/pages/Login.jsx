@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import { loginUser } from "../api";
 
 export function loader({ request }) {
   return new URL(request.url).searchParams.get("message");
@@ -7,14 +8,21 @@ export function loader({ request }) {
 
 export default function Login() {
   const message = useLoaderData();
+  const [status, setStatus] = useState("idle");
+  const [error , setError] = useState(null)
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate()
 
   function handleSubmit(e) {
+    setStatus("submitting");
     e.preventDefault();
-    console.log(loginFormData);
+    loginUser(loginFormData)
+      .then(() => navigate('/host' , {relative : true}))
+      .catch(error => setError(error))
+      .finally(() => setStatus("idle"));
   }
 
   function handleChange(e) {
@@ -32,7 +40,12 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="flex flex-col w-full max-w-[500px] login-form text-center"
       >
-        {message && <h2 className="text-2xl text-red-600 mb-2 font-bold">{message}</h2>}
+        {message && (
+          <h2 className="text-2xl text-red-600 mb-2 font-bold">{message}</h2>
+        )}
+        {error && (
+          <h2 className="text-2xl text-red-600 mb-2 font-bold">{error.message}</h2>
+        )}
 
         <input
           name="email"
@@ -48,8 +61,10 @@ export default function Login() {
           placeholder="Password"
           value={loginFormData.password}
         />
-        <button className="bg-[#FF8C38] w-full h-14 mt-3 text-white rounded-md">
-          Log in
+        <button
+          className="bg-[#FF8C38] w-full h-14 mt-3 text-white rounded-md"
+          disabled={status === 'submitting'}
+        >{status === 'submitting' ? 'Logging in ...' : 'Log in'}
         </button>
       </form>
     </div>
