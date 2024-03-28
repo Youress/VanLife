@@ -24,7 +24,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ErrorEl from "./ErrorEl";
-import Login , {loader as loginLoader} from "./pages/Login";
+import Login, { action as loginAction , loader as loginLoader } from "./pages/Login";
 import { requireAuth } from "./utils";
 
 const route = createBrowserRouter(
@@ -32,7 +32,7 @@ const route = createBrowserRouter(
     <Route element={<Layout />} errorElement={<ErrorEl />}>
       <Route path="/" element={<Home />} />
       <Route path="about" element={<About />} />
-      <Route path="login" element={<Login />} loader={loginLoader} />
+      <Route path="login" element={<Login />} action={loginAction} loader={loginLoader}/>
 
       <Route path="Vans" element={<Vans />} loader={vansLoader} />
       <Route path="vans/:id" element={<VanDetails />} loader={vanDetalLoader} />
@@ -42,7 +42,7 @@ const route = createBrowserRouter(
           index
           element={<Dashborad />}
           loader={async () => {
-           await requireAuth();
+            await requireAuth();
           }}
         />
         <Route path="vans" element={<VansHost />} loader={hostVanLoader} />
@@ -52,12 +52,12 @@ const route = createBrowserRouter(
           loader={hostVansDetailLoader}
         >
           <Route
-            index
+            inde
             element={
               <HostVanInfo
-              loader={async () => {
-                await requireAuth();
-               }}
+                loader={async () => {
+                  await requireAuth();
+                }}
               />
             }
           />
@@ -66,14 +66,14 @@ const route = createBrowserRouter(
             element={<HostVanPricing />}
             loader={async () => {
               await requireAuth();
-             }}
+            }}
           />
           <Route
             path="photos"
             element={<HostVanPhotos />}
             loader={async () => {
               await requireAuth();
-             }}
+            }}
           />
         </Route>
         <Route
@@ -81,14 +81,14 @@ const route = createBrowserRouter(
           element={<Income />}
           loader={async () => {
             await requireAuth();
-           }}
+          }}
         />
         <Route
           path="reviews"
           element={<Reviews />}
           loader={async () => {
             await requireAuth();
-           }}
+          }}
         />
       </Route>
       <Route path="*" element={<ErrorPage />} />
