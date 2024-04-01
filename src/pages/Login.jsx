@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLoaderData, useNavigate, Form, redirect } from "react-router-dom";
+import React from "react";
+import { useLoaderData, Form, redirect ,useActionData ,useNavigation} from "react-router-dom";
 import { loginUser } from "../api";
 
 export function loader({ request }) {
@@ -9,42 +9,36 @@ export async function action({ request }) {
   const formdata = await request.formData();
   const email = formdata.get("email");
   const password = formdata.get("password");
-  const data = await loginUser({ email, password });
+  try {
+    const data = await loginUser({ email, password });
   localStorage.setItem("loggedin", true);
-  return redirect("/host")
+  return redirect("/host");
+  } catch (error) {
+    return error.message
+    
+  }
+  
 }
 export default function Login() {
   const message = useLoaderData();
-  const [status, setStatus] = useState("idle");
-  const [error, setError] = useState(null);
-  const [loginFormData, setLoginFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const navigate = useNavigate();
+  const navigation = useNavigation()
+  const errorMessage = useActionData()
 
-  function handleSubmit(e) {
-    setStatus("submitting");
-    e.preventDefault();
-    loginUser(loginFormData)
-      .then(() => navigate("/host", { replace: true }))
-      .catch((error) => setError(error))
-      .finally(() => setStatus("idle"));
-  }
 
   return (
     <div className="flex flex-col items-center px-6 ">
       <h1 className="font-bold text-3xl my-3">Sign in to your account</h1>
       <Form
+        replace
         method="post"
         className="flex flex-col w-full max-w-[500px] login-form text-center"
       >
         {message && (
           <h2 className="text-2xl text-red-600 mb-2 font-bold">{message}</h2>
         )}
-        {error && (
+        {errorMessage && (
           <h2 className="text-2xl text-red-600 mb-2 font-bold">
-            {error.message}
+            {errorMessage}
           </h2>
         )}
 
@@ -52,9 +46,9 @@ export default function Login() {
         <input name="password" type="password" placeholder="Password" />
         <button
           className="bg-[#FF8C38] w-full h-14 mt-3 text-white rounded-md"
-          disabled={status === "submitting"}
+          disabled={navigation.state === "submitting"}
         >
-          {status === "submitting" ? "Logging in ..." : "Log in"}
+          {navigation.state === "submitting" ? "Logging in ..." : "Log in"}
         </button>
       </Form>
     </div>
