@@ -9,10 +9,12 @@ export async function action({ request }) {
   const formdata = await request.formData();
   const email = formdata.get("email");
   const password = formdata.get("password");
+  const pathname = new URL(request.url).searchParams.get("redirectTo") || '/host'
+
   try {
     const data = await loginUser({ email, password });
   localStorage.setItem("loggedin", true);
-  return redirect("/host");
+  return redirect(pathname);
   } catch (error) {
     return error.message
     
